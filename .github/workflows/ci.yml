@@ -30,6 +30,11 @@ jobs:
     - name: Start Sail
       run: ./vendor/bin/sail up -d
 
+    - name: Fix Permissions
+      run: |
+        sudo chmod -R 777 storage bootstrap/cache
+        sudo chown -R $(id -u):$(id -g) .
+
     - name: Generate Application Key
       run: ./vendor/bin/sail artisan key:generate
 
