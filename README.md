@@ -205,3 +205,22 @@ class AuthServiceTest extends TestCase
     }
 }
 ```
+
+## Security Considerations & Protections
+
+This application implements a multi-layered security strategy to protect user data and prevent common vulnerabilities.
+
+### Authentication & Authorization
+- **Middleware Protection**: All sensitive routes are protected by the `auth` middleware. Administrative routes are further secured by the `admin` middleware, ensuring strict role-based access control.
+- **Guest Middleware**: Registration and login pages are restricted to unauthenticated users via the `guest` middleware to prevent session confusion.
+- **Privilege Escalation Prevention**: Form Requests explicitly check user roles (e.g., `Auth::user()->role === 'admin'`) before authorizing administrative actions, preventing horizontal and vertical privilege escalation.
+
+### Request Security
+- **Rate Limiting**: Login and password reset endpoints are protected by Laravel's `throttle` middleware (5 attempts per minute for login, 3 for password reset) to mitigate brute-force attacks.
+- **Input Validation**: All incoming data is rigorously validated using dedicated Form Request classes. No raw input is ever trusted.
+- **CSRF Protection**: All forms include CSRF tokens to prevent cross-site request forgery.
+
+### Data Protection
+- **Password Hashing**: All passwords are hashed using Bcrypt before storage.
+- **Session Security**: Sessions are regenerated upon login to prevent session fixation attacks.
+- **Safe Error Handling**: Error messages are generic (e.g., "The provided credentials do not match our records") to avoid leaking user enumeration data.
