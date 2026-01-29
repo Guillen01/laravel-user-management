@@ -1,64 +1,64 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('title', 'User Management')
 
 @section('content')
-    <div class="max-w-6xl mx-auto">
-        <div class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl font-bold text-gray-800">User Management</h1>
-            <a href="{{ route('admin.dashboard') }}" class="text-sm text-gray-600 hover:text-blue-600 flex items-center">
-                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-                Back to Dashboard
-            </a>
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+        <div>
+            <h1 class="text-4xl font-black text-black uppercase tracking-tight mb-1">Users</h1>
+            <p class="font-bold text-gray-500">Manage system access.</p>
         </div>
+        <div class="bg-white border-2 border-black px-4 py-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] font-bold text-sm">
+            Total Users: {{ $users->count() }}
+        </div>
+    </div>
 
-        <div class="bg-white overflow-hidden shadow-lg rounded-xl border border-gray-100">
-            <div class="overflow-x-auto">
-                <table class="min-w-full bg-white">
-                    <thead>
-                        <tr class="bg-gray-50 text-gray-600 uppercase text-xs font-semibold tracking-wider border-b border-gray-200">
-                            <th class="py-4 px-6 text-left">ID</th>
-                            <th class="py-4 px-6 text-left">Name</th>
-                            <th class="py-4 px-6 text-left">Email</th>
-                            <th class="py-4 px-6 text-left">Role</th>
-                            <th class="py-4 px-6 text-center">Actions</th>
+    <div class="bg-white border-2 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="min-w-full">
+                <thead class="bg-black text-white border-b-2 border-black">
+                    <tr>
+                        <th class="py-4 px-6 text-left font-black uppercase tracking-wider text-sm">ID</th>
+                        <th class="py-4 px-6 text-left font-black uppercase tracking-wider text-sm">Name</th>
+                        <th class="py-4 px-6 text-left font-black uppercase tracking-wider text-sm">Email</th>
+                        <th class="py-4 px-6 text-left font-black uppercase tracking-wider text-sm">Role</th>
+                        <th class="py-4 px-6 text-center font-black uppercase tracking-wider text-sm">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y-2 divide-black">
+                    @foreach ($users as $user)
+                        <tr class="hover:bg-yellow-50 transition-colors font-bold text-gray-800">
+                            <td class="py-4 px-6">{{ $user->id }}</td>
+                            <td class="py-4 px-6">{{ $user->name }}</td>
+                            <td class="py-4 px-6 font-mono text-sm">{{ $user->email }}</td>
+                            <td class="py-4 px-6">
+                                <span class="inline-block px-2 py-1 text-xs border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] uppercase tracking-wide {{ $user->role === 'admin' ? 'bg-purple-200 text-purple-900' : 'bg-blue-200 text-blue-900' }}">
+                                    {{ $user->role }}
+                                </span>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                <div class="flex items-center justify-center gap-2">
+                                    <a href="{{ route('admin.users.edit', $user) }}" class="p-2 bg-white border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:bg-yellow-300 hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] active:shadow-none transition-all" title="Edit">
+                                        <svg class="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                                    </a>
+                                    <form action="{{ route('admin.users.destroy', $user) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="p-2 bg-white border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:bg-red-500 hover:text-white hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] active:shadow-none transition-all" title="Delete">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody class="text-gray-700 text-sm divide-y divide-gray-100">
-                        @foreach ($users as $user)
-                            <tr class="hover:bg-gray-50 transition">
-                                <td class="py-4 px-6 whitespace-nowrap font-medium text-gray-900">{{ $user->id }}</td>
-                                <td class="py-4 px-6">{{ $user->name }}</td>
-                                <td class="py-4 px-6">{{ $user->email }}</td>
-                                <td class="py-4 px-6">
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $user->role === 'admin' ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800' }}">
-                                        {{ ucfirst($user->role) }}
-                                    </span>
-                                </td>
-                                <td class="py-4 px-6 text-center">
-                                    <div class="flex item-center justify-center space-x-3">
-                                        <a href="{{ route('admin.users.edit', $user) }}" class="text-gray-500 hover:text-blue-600 transition" title="Edit">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                                        </a>
-                                        <form action="{{ route('admin.users.destroy', $user) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this user?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="text-gray-500 hover:text-red-600 transition" title="Delete">
-                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-            @if($users->isEmpty())
-                <div class="p-6 text-center text-gray-500">
-                    No users found.
-                </div>
-            @endif
+                    @endforeach
+                </tbody>
+            </table>
         </div>
+        @if($users->isEmpty())
+            <div class="p-8 text-center font-bold text-gray-500 bg-gray-50">
+                No users found in the database.
+            </div>
+        @endif
     </div>
 @endsection
