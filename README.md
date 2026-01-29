@@ -100,3 +100,54 @@ The following UI/UX elements have been audited and verified for consistency acro
 - [x] **Form Requests**: Validation logic is moved to dedicated Form Request classes.
 - [x] **Type Safety**: Strict typing applied to method signatures and properties.
 - [x] **Code Style**: Follows Laravel best practices and conventions.
+
+## Architecture Overview
+
+```ascii
+       [ HTTP Request ]
+              │
+              ▼
+    +--------------------+
+    |       Routes       |
+    +--------------------+
+              │
+              ▼
+    +--------------------+      +------------------+
+    |    Controllers     | ◄─── |   Form Requests  |
+    +--------------------+      +------------------+
+              │
+              │ (Calls)
+              ▼
+    +--------------------+
+    |      Services      |
+    +--------------------+
+              │
+              │ (Uses)
+              ▼
+    +--------------------+
+    |       Models       |
+    +--------------------+
+              │
+              │ (Queries)
+              ▼
+    +--------------------+
+    |      Database      |
+    +--------------------+
+
+            ... (Data returns up to Controller) ...
+
+              │
+              ▼
+    +--------------------+
+    |    Blade Views     |
+    +--------------------+
+              │
+              ▼
+      [ HTTP Response ]
+```
+
+### Key Architectural Decisions
+
+- **Thin Controllers**: Controllers act solely as traffic directors. They validate input using Form Requests and delegate business logic to Services, ensuring they remain lightweight and readable.
+- **Service Layer**: All complex business logic (e.g., user registration, password resets) is encapsulated in dedicated Service classes. This promotes reusability and keeps the core logic independent of the HTTP layer.
+- **Strict Eloquent ORM**: Database interactions are strictly handled via Eloquent Models. This ensures security, type safety, and maintainability by avoiding raw SQL queries.
