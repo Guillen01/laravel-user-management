@@ -13,10 +13,12 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Copy .env
+    - name: Configure Environment
       run: |
         cp .env.example .env
         sed -i 's/APP_DEBUG=true/APP_DEBUG=false/' .env
+        sed -i "s/WWWGROUP=.*/WWWGROUP=$(id -g)/" .env
+        sed -i "s/WWWUSER=.*/WWWUSER=$(id -u)/" .env
 
     - name: Install Dependencies
       run: |
@@ -33,6 +35,7 @@ jobs:
     - name: Fix Permissions
       run: |
         sudo chmod -R 777 storage bootstrap/cache
+        sudo chmod 777 .env
         sudo chown -R $(id -u):$(id -g) .
 
     - name: Generate Application Key
