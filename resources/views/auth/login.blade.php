@@ -11,14 +11,34 @@
             </div>
 
             <!-- Demo Credentials Helper -->
-            <div class="mb-8 grid grid-cols-2 gap-4">
-                <div onclick="fillCredentials('admin@demo.com', 'admin123')" class="cursor-pointer p-3 border-2 border-black bg-gray-50 hover:bg-blue-50 transition-colors text-center shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none group">
-                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Admin Demo</p>
-                    <p class="text-sm font-bold text-black group-hover:text-blue-600 transition-colors">Login as Admin</p>
-                </div>
-                <div onclick="fillCredentials('user@demo.com', 'user123')" class="cursor-pointer p-3 border-2 border-black bg-gray-50 hover:bg-blue-50 transition-colors text-center shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none group">
-                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">User Demo</p>
-                    <p class="text-sm font-bold text-black group-hover:text-blue-600 transition-colors">Login as User</p>
+            <div class="mb-8">
+                <p class="text-xs font-black text-gray-500 uppercase tracking-wide mb-3 text-center">Quick Login (Demo)</p>
+                <div class="grid grid-cols-2 gap-4">
+                    <button type="button" onclick="fillCredentials('admin@demo.com', 'admin123')" class="group relative p-4 bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none transition-all text-left">
+                        <div class="absolute top-0 right-0 p-1">
+                            <div class="w-2 h-2 bg-purple-500 rounded-full border border-black"></div>
+                        </div>
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="p-1.5 bg-purple-100 border-2 border-black rounded-md group-hover:bg-purple-500 group-hover:text-white transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                            </div>
+                            <span class="text-xs font-black uppercase tracking-wide text-gray-500">Admin</span>
+                        </div>
+                        <p class="text-sm font-bold text-black group-hover:text-purple-700 transition-colors">admin@demo.com</p>
+                    </button>
+
+                    <button type="button" onclick="fillCredentials('user@demo.com', 'user123')" class="group relative p-4 bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none transition-all text-left">
+                        <div class="absolute top-0 right-0 p-1">
+                            <div class="w-2 h-2 bg-blue-500 rounded-full border border-black"></div>
+                        </div>
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="p-1.5 bg-blue-100 border-2 border-black rounded-md group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                            </div>
+                            <span class="text-xs font-black uppercase tracking-wide text-gray-500">User</span>
+                        </div>
+                        <p class="text-sm font-bold text-black group-hover:text-blue-700 transition-colors">user@demo.com</p>
+                    </button>
                 </div>
             </div>
 
