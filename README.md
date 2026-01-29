@@ -511,3 +511,62 @@ Removes a user from the system.
     "data": null
   }
   ```
+
+## Production Security Checklist
+
+This checklist outlines the essential steps to secure this application in a production environment.
+
+### 1. Environment Configuration
+- [ ] **APP_ENV**: Set to `production`.
+- [ ] **APP_DEBUG**: Set to `false`.
+- [ ] **APP_KEY**: Generate a unique key using `php artisan key:generate`.
+- [ ] **.env File**: Ensure `.env` is never committed to version control.
+- [ ] **Permissions**: Set correct file permissions (e.g., `chmod -R 775 storage bootstrap/cache`).
+
+### 2. Authentication & Authorization
+- [ ] **Passwords**: Enforce strong password requirements (min 8 chars, mixed case, numbers).
+- [ ] **Admin Access**: Ensure all admin routes are protected by the `admin` middleware.
+- [ ] **Privilege Escalation**: Verify no paths exist for users to elevate their own privileges.
+- [ ] **API Auth**: Ensure Sanctum tokens are scoped correctly and revoked on logout.
+
+### 3. Session & Cookie Security
+- [ ] **Secure Cookies**: Enable `SESSION_SECURE_COOKIE=true` in `.env` (requires HTTPS).
+- [ ] **HTTP Only**: Ensure `SESSION_HTTP_ONLY=true`.
+- [ ] **SameSite**: Configure `SESSION_SAME_SITE=lax` or `strict`.
+- [ ] **Regeneration**: Verify session ID regeneration on login (`Session::regenerate()`).
+
+### 4. Database Security
+- [ ] **Dedicated User**: Use a separate database user with limited privileges (no `DROP` or `GRANT`).
+- [ ] **Credentials**: Never reuse production database credentials in local or staging environments.
+- [ ] **Backups**: Enable automated, encrypted database backups.
+- [ ] **Indexing**: Ensure indexes are applied to sensitive lookup fields (e.g., `email`, `role`).
+
+### 5. Rate Limiting & Abuse Protection
+- [ ] **Login**: Ensure login endpoint is rate-limited (default: 5 attempts/min).
+- [ ] **Password Reset**: Rate limit password reset requests to prevent spam.
+- [ ] **API**: Configure `ThrottleRequests` middleware for all API endpoints.
+- [ ] **Limits**: Define sensible limits that prevent abuse without locking out legitimate users.
+
+### 6. Data Protection
+- [ ] **Hashing**: Ensure all passwords are hashed using Bcrypt or Argon2.
+- [ ] **Logging**: Verify that no sensitive data (passwords, tokens, PII) is written to logs.
+- [ ] **Error Messages**: Use generic error messages for authentication failures ("Invalid credentials").
+- [ ] **HTTPS**: Enforce HTTPS for all traffic (`ForceHTTPS` middleware or server config).
+
+### 7. Dependency & Supply Chain Security
+- [ ] **Composer Audit**: Run `composer audit` regularly to check for PHP vulnerabilities.
+- [ ] **NPM Audit**: Run `npm audit` to check for frontend vulnerabilities.
+- [ ] **Updates**: Keep framework and dependencies up to date.
+- [ ] **Lock Files**: Commit `composer.lock` and `package-lock.json` and review changes.
+
+### 8. CI/CD & Deployment Safety
+- [ ] **Vulnerability Blocking**: Configure CI to block builds with critical dependency vulnerabilities.
+- [ ] **Test Blocking**: Ensure CI blocks deployment if tests fail.
+- [ ] **Secrets**: Store production secrets in CI/CD variables, never in the repo.
+- [ ] **Approval**: Require manual approval for production deployments.
+
+### 9. Server & Infrastructure
+- [ ] **Firewall**: Enable a firewall (e.g., UFW) and close all unused ports.
+- [ ] **Headers**: Configure web server (Nginx/Apache) to hide framework headers (`X-Powered-By`).
+- [ ] **PHP Version**: Use a supported, secure PHP version (currently 8.2+).
+- [ ] **SSL/TLS**: Install a valid SSL certificate (e.g., Let's Encrypt).
