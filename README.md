@@ -34,9 +34,79 @@ A dedicated control center for administrators to manage the application and its 
 - **Delete Users**: Remove user accounts from the system permanently.
 - **Change Admin Password**: Administrators can securely update their own credentials.
 
-## How to Run the Project
+## Running the Project with Docker (Laravel Sail)
 
-Follow these steps to set up the project on your local machine:
+This project is configured to run with [Laravel Sail](https://laravel.com/docs/sail), a light-weight command-line interface for interacting with Laravel's default Docker development environment.
+
+### Requirements
+- [Docker Desktop](https://www.docker.com/products/docker-desktop)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+
+### Setup Commands
+
+1.  **Clone the repository**
+    ```bash
+    git clone https://github.com/prayangshu/laravel-user-management.git
+    cd laravel-user-management
+    ```
+
+2.  **Install Dependencies**
+    If you have PHP and Composer installed locally:
+    ```bash
+    composer install
+    ```
+    
+    If you do **not** have PHP/Composer installed locally, you can use a small Docker container to install dependencies:
+    ```bash
+    docker run --rm \
+        -u "$(id -u):$(id -g)" \
+        -v "$(pwd):/var/www/html" \
+        -w /var/www/html \
+        laravelsail/php84-composer:latest \
+        composer install --ignore-platform-reqs
+    ```
+
+3.  **Configure Environment**
+    Copy the example environment file. It is already pre-configured for Sail.
+    ```bash
+    cp .env.example .env
+    ```
+
+4.  **Start Sail**
+    This will build the containers and start the application.
+    ```bash
+    ./vendor/bin/sail up -d
+    ```
+
+5.  **Generate Key & Migrate**
+    Run these commands inside the Sail container:
+    ```bash
+    ./vendor/bin/sail artisan key:generate
+    ./vendor/bin/sail artisan migrate --seed
+    ```
+
+6.  **Install Frontend Assets**
+    ```bash
+    ./vendor/bin/sail npm install
+    ./vendor/bin/sail npm run build
+    ```
+
+    Access the app at `http://localhost`.
+
+### Common Commands
+
+- **Start containers**: `./vendor/bin/sail up -d`
+- **Stop containers**: `./vendor/bin/sail down`
+- **Run Artisan commands**: `./vendor/bin/sail artisan <command>`
+- **Run Composer**: `./vendor/bin/sail composer <command>`
+- **Run NPM**: `./vendor/bin/sail npm <command>`
+- **Run Tests**: `./vendor/bin/sail test`
+
+---
+
+## How to Run the Project (Local / Non-Docker)
+
+Follow these steps to set up the project on your local machine without Docker:
 
 1.  **Clone the repository**
     ```bash
