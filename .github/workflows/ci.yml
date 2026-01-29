@@ -32,6 +32,18 @@ jobs:
     - name: Start Sail
       run: ./vendor/bin/sail up -d
 
+    - name: Wait for Database
+      run: |
+        echo "Waiting for MySQL to be ready..."
+        for i in {1..30}; do
+          if docker exec $(docker ps -qf "name=mysql") mysqladmin ping -h localhost -u sail -ppassword --silent; then
+            echo "MySQL is ready!"
+            break
+          fi
+          echo "Waiting..."
+          sleep 2
+        done
+
     - name: Fix Permissions
       run: |
         sudo chmod -R 777 storage bootstrap/cache
