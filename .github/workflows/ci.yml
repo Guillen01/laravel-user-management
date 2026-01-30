@@ -35,14 +35,22 @@ jobs:
     - name: Wait for Database
       run: |
         echo "Waiting for MySQL to be ready..."
-        for i in {1..30}; do
-          if docker exec $(docker ps -qf "name=mysql") mysqladmin ping -h localhost -u sail -ppassword --silent; then
+        MYSQL_CONTAINER_ID=$(docker compose ps -q mysql)
+
+        for i in {1..60}; do
+          STATUS=$(docker inspect --format='{{.State.Health.Status}}' $MYSQL_CONTAINER_ID)
+          echo "Current status: $STATUS"
+          if [ "$STATUS" == "healthy" ]; then
             echo "MySQL is ready!"
-            break
+            sleep 5
+            exit 0
           fi
-          echo "Waiting..."
           sleep 2
         done
+
+        echo "Timeout waiting for MySQL."
+        docker compose logs mysql
+        exit 1
 
     - name: Fix Permissions
       run: |
@@ -54,7 +62,7 @@ jobs:
       run: ./vendor/bin/sail artisan key:generate
 
     - name: Run Migrations
-      run: ./vendor/bin/sail artisan migrate --force
+      run: ./vendor/bin/sail artisan migrate --force || (docker compose logs mysql && exit 1)
 
     - name: Seed Database
       run: ./vendor/bin/sail artisan db:seed --force
